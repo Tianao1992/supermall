@@ -64,6 +64,7 @@
       },
       stopTimer: function () {
         window.clearInterval(this.playTimer);
+        this.playTimer = null
       },
 
       /**
@@ -201,7 +202,6 @@
         // 2.修改index和位置
         this.currentIndex += num;
         this.scrollContent(-this.currentIndex * this.totalWidth);
-
         // 3.添加定时器
         this.startTimer();
       }

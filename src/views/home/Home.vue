@@ -11,7 +11,7 @@
      :pull-up-load="true"
      @pullingUp="loadMore"
      >
-        <home-swiper :banners="banners" @swiperImgLoad="swiperImgLoad"></home-swiper>
+        <home-swiper :banners="banners" ref="hSwiper" @swiperImgLoad="swiperImgLoad"></home-swiper>
         <RecommendView :recommends='recommends'></RecommendView>
         <FeatureView></FeatureView>
         <tab-control ref='tabControl2' :titles="['流行', '新款', '精选']" @tabClick="tabClick"></tab-control>
@@ -51,7 +51,8 @@ export default {
       currentType: 'pop',
       isshowbacktop: false,
       taboffsetTop: 0,
-      isTabFixed: false
+      isTabFixed: false,
+      saveY:0,
     }
   },
   components:{
@@ -86,6 +87,18 @@ export default {
     this.$bus.$on('imgLoad', () => {
       refresh()
     })
+  },
+  destroyed() {
+     console.log('home destroyed');
+  },
+  activated() {
+     this.$refs.scroll.scrollTo(0, this.saveY, 0)
+    this.$refs.scroll.refresh()
+  },
+  deactivated() {
+    //离开home 保持Y
+     this.saveY = this.$refs.scroll.getCurrentY();
+      this.$refs.hSwiper.stopTimer()
   },
   methods: {
     /* 
@@ -137,7 +150,7 @@ export default {
       getHomeGoods(type,page).then(res => {
             this.goods[type].list.push(...res.data.list);
             this.goods[type].page + 1;
-            this.$refs.scroll.finishPullUp()
+            // this.$refs.scroll.finishPullUp()
       }).catch(err => {
             console.log(err);
       })

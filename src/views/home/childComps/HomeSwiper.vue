@@ -1,6 +1,6 @@
 <template>
   <div class="HomeSwiper">
-    <Swiper>
+    <Swiper ref="swiper">
        <swiper-item v-for=" (item,index) in banners" :key="index">
          <a :href="item.link">
            <img :src="item.image" alt="" @load="imgload">
@@ -38,6 +38,12 @@ export default {
            this.$emit('swiperImgLoad')
            this.isload = true
        }
+     },
+     startTimer() {
+         this.$refs.swiper.startTimer()
+     },
+     stopTimer() {
+       this.$refs.swiper.stopTimer()
      }
    }
 }
