@@ -50,14 +50,14 @@
 
         // 2.开启定时器
         this.startTimer();
-      }, 100)
+      }, 3000)
     },
     methods: {
 		  /**
        * 定时器操作
        */
       startTimer: function () {
-		      this.playTimer = window.setInterval(() => {
+		    this.playTimer = window.setInterval(() => {
 		      this.currentIndex++;
 		      this.scrollContent(-this.currentIndex * this.totalWidth);
         }, this.interval)
